@@ -1,101 +1,73 @@
+import { getPosts } from "@/api/posts/get-posts";
+import photo from "@/assets/meu_pet.jpg";
+import photoSocialDev from "@/assets/socialDev.png";
+import Card from "@/components/Card";
+import CardAsidePerfil from "@/components/CardAsidePerfil";
+import CardPosts from "@/components/CardPosts";
 import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+export default async function HomePage() {
+	const posts = await getPosts();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+	return (
+		<main className="w-full flex flex-col gap-4 py-4 px-2  text-white relative lg:flex-row md:gap-4 md:px-4 justify-center">
+			<div className="e_lg:flex flex-col relative">
+				<div className="sticky top-2">
+					<CardAsidePerfil />
+				</div>
+			</div>
+			<div className=" lg:w-[800px] space-y-3">
+				<Card className="flex h-32 flex-1 w-full gap-2 ">
+					<div className="w-8 h-8 rounded-full bg-gray-500 overflow-hidden flex items-center justify-center bg-cover shadow-md ">
+						<Image
+							src={photo}
+							alt="imagem"
+							className="w-full h-full object-cover"
+						/>
+					</div>
+					<Link
+						href={"/create-post"}
+						className="w-full hfull bg-zinc-700 rounded-md p-2"
+					>
+						<span className="text-zinc-400 ">Escreva uma nova postagem</span>
+					</Link>
+				</Card>
+
+				{/* biome-ignore lint/suspicious/noExplicitAny: <explanation> */}
+				{posts?.map((post: any) => (
+					<CardPosts key={post.id} posts={post} />
+				))}
+			</div>
+			<div className="hidden e_lg:flex flex-col relative">
+				<div className="sticky top-2">
+					<Card className=" min-w-[300px] flex flex-col gap-2 items-center relative overflow-hidden">
+						<div className=" w-[350px]  bg-gray-500 overflow-hidden flex items-center justify-center bg-cover shadow-md z-20 mt-10 border-4 border-zinc-900">
+							<Image
+								src={photoSocialDev}
+								alt="imagem"
+								width={400}
+								height={450}
+								className="w-full h-full object-cover"
+							/>
+						</div>
+						<span className="font-semibold text-xl">
+							Seja Bem-vindo! A Social-Dev{" "}
+						</span>
+						<span className="text-zinc-400 italic">
+							A rede social dos DEV`s!
+						</span>
+
+						<span className="text-zinc-400 italic w-[350px] text-center">
+							Um lugar para se conectar com pessoas que compartilham suas
+							paixões, trocar ideias e construir histórias juntos. Aqui, você
+							pode compartilhar experiências, explorar conteúdos relevantes e
+							interagir em um ambiente acolhedor e seguro. Junte-se à nossa
+							comunidade e transforme conexões em algo especial!
+						</span>
+					</Card>
+				</div>
+			</div>
+		</main>
+	);
 }
