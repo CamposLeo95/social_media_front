@@ -1,11 +1,11 @@
 "use client";
 
 import photo from "@/assets/meu_pet.jpg";
+import Card from "@/components/card";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { FaRegImage } from "react-icons/fa";
 import { IoCloseCircleOutline } from "react-icons/io5";
-import Card from "./Card";
 
 export const FormPost = () => {
 	const [openForm, setOpenForm] = useState(false);
@@ -17,7 +17,6 @@ export const FormPost = () => {
 
 	return (
 		<>
-
 			{openForm && (
 				<div className="h-screen bg-zinc-100 bg-opacity-85 absolute top-0 left-0 w-full flex items-center roun justify-center inset-0">
 					<Card className=" absolute border-[1px] border-zinc-500 rounded-none left-0 shadow-md h-72 top-10 w-full md:w-[800px] z-50 flex flex-col gap-2 items-center opacity-100">

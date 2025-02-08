@@ -1,10 +1,8 @@
-import type { IUser } from "./user";
-
 export type IComment = {
 	id: number;
-	userId: number;
-	postId: number;
 	content: string;
-	createAt: string;
-	user: IUser;
+	id_post: number;
+	id_user: number;
+	createdAt: string;
+	updatedAt: string;
 };

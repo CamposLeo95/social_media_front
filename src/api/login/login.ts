@@ -1,19 +1,29 @@
-import { saveSession } from "@/utils/session";
-import { redirect } from "next/navigation";
+"use server";
+import { signIn } from "@/auth";
 
-export async function loginAction(formData: FormData) {
-	"use server";
-	const { email, senha } = Object.fromEntries(formData);
+export async function loginAction(_prevState: any, formdata: FormData) {
+	try {
+		const { email, password } = Object.fromEntries(formdata);
 
-	const response = await fetch("http://localhost:3333/login", {
-		method: "POST",
-		headers: { "Content-type": "application/json" },
-		body: JSON.stringify({ email, senha }),
-	});
+		await signIn("credentials", {
+			email: email,
+			password: password,
+			redirect: false,
+		});
+		return {
+			success: true,
+		};
+	} catch (e) {
+		if (e.type === "CredentialsSignin") {
+			return {
+				success: false,
+				message: "Dados de login inválidos.",
+			};
+		}
 
-	if (response.ok) {
-		const { token } = await response.json();
-		await saveSession(token);
-		redirect("/");
+		return {
+			success: false,
+			message: "Erro ao realizar login.",
+		};
 	}
 }

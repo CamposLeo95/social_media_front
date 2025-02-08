@@ -7,11 +7,21 @@ const nextConfig: NextConfig = {
 				protocol: "http",
 				hostname: "localhost",
 				port: "3333",
-				pathname: "/uploads/images/**",
+				pathname: "/**",
+			},
+			{
+				protocol: "https",
+				hostname: "storage.cloud.google.com",
+				pathname: "/**",
 			},
 			{
 				protocol: "https",
 				hostname: "storage.googleapis.com",
+				pathname: "/**",
+			},
+			{
+				protocol: "https",
+				hostname: "source.unsplash.com",
 				pathname: "/**",
 			},
 		],

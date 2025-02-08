@@ -1,18 +1,13 @@
+"use server";
 import { getSession } from "@/utils/session";
 import type { IPost } from "../types/post";
-
+const URL_API = process.env.NEXT_PUBLIC_API_URL;
 export async function getPostById(
 	postId: string | undefined,
-): Promise<IPost | null> {
-	"use server";
-
-	if (!postId) {
-		return null;
-	}
-
+): Promise<{ message: string; data: IPost }> {
 	const session = await getSession();
 
-	const response = await fetch(`http://localhost:3333/posts/${postId}`, {
+	const response = await fetch(`${URL_API}/posts/${postId}`, {
 		method: "GET",
 		headers: {
 			"Content-type": "application/json",
@@ -20,5 +15,7 @@ export async function getPostById(
 		},
 	});
 
-	return response.json();
+	const data = response.json();
+
+	return data;
 }

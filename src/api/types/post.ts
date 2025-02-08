@@ -4,9 +4,9 @@ import type { IUser } from "./user";
 
 export type IPost = {
 	id: string;
-	userId: number;
+	id_user: number;
 	content: string;
-	image: string;
+	image_url: string;
 	createAt: string;
 	user: IUser;
 	comments: IComment[];

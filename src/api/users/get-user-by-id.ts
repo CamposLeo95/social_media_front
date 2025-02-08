@@ -1,15 +1,20 @@
+import { type IUserMapper, userMapper } from "@/mappers/user.mapper";
 import { getSession } from "@/utils/session";
-import type { IUser } from "../types/user";
 
-export async function getUserById(id: string): Promise<IUser> {
+const URL_API = process.env.NEXT_PUBLIC_API_URL;
+
+export async function getUserById(id: number): Promise<IUserMapper> {
 	const session = await getSession();
-	const response = await fetch(`http://localhost:3333/users/${id}`, {
+	const response = await fetch(`${URL_API}/users/${id}`, {
 		method: "GET",
 		headers: {
 			"Content-type": "application/json",
 			Authorization: `Bearer ${session.token}`,
 		},
 	});
-	const { user } = await response.json();
-	return user;
+	const { data } = await response.json();
+
+	const userMap = userMapper(data);
+
+	return userMap;
 }
