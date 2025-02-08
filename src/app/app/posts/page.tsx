@@ -1,11 +1,10 @@
 import { getPosts } from "@/api/posts/get-posts";
-import photo from "@/assets/meu_pet.jpg";
+import photo from "@/assets/perfil.png";
 import photoSocialDev from "@/assets/socialDev.png";
 import CardAsidePerfil from "@/components/aside";
 import Card from "@/components/card";
 import CardPosts from "@/components/card-posts";
 import { getUserData } from "@/utils/session";
-import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";

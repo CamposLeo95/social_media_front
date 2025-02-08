@@ -1,5 +1,6 @@
 import { getPosts } from "@/api/posts/get-posts";
-import photo from "@/assets/meu_pet.jpg";
+import photo from "@/assets/cover.jpg";
+import perfil from "@/assets/perfil.png";
 import MenuAside from "@/components/aside-menu";
 import LogoutButton from "@/components/button-logout";
 import { getUserData } from "@/utils/session";
@@ -22,7 +23,7 @@ export default async function CardAsidePerfil() {
 				/>
 				<div className="w-20 h-24 rounded-full bg-gray-500 overflow-hidden flex items-center justify-center bg-cover shadow-md z-20 mt-10 border-4 border-zinc-900">
 					<Image
-						src={user?.image_perfil || photo}
+						src={user?.image_perfil || perfil}
 						alt="imagem"
 						className="w-full h-full object-cover"
 						width={300}

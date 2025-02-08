@@ -1,9 +1,9 @@
 import { getCommentByPost } from "@/api/comments/get-comment-by-id";
 import { getPostById } from "@/api/posts/get-post-by-id";
 import { getUserById } from "@/api/users/get-user-by-id";
-import photo from "@/assets/meu_pet.jpg";
+import photo from "@/assets/perfil.png";
 import Card from "@/components/card";
-import { getSession } from "@/utils/session";
+import { getSession, getUserData } from "@/utils/session";
 import { jwtDecode } from "jwt-decode";
 import Image from "next/image";
 import Link from "next/link";
@@ -33,6 +33,7 @@ export default async function Comments(props: CommentsProps) {
 	const userId = await jwtDecode<{ userId: number }>(token)?.userId;
 	const data = await findLikeOnly(Number(post?.id), userId);
 	const user = await getUserById(post?.id_user);
+	const userMe = await getUserData();
 	const { data: comments } = await getCommentByPost(Number(post?.id));
 
 	return (
@@ -108,7 +109,7 @@ export default async function Comments(props: CommentsProps) {
 				<Card className="flex h-32 flex-1 w-full gap-2 ">
 					<div className="w-8 h-8 rounded-full bg-gray-500 overflow-hidden flex items-center justify-center bg-cover shadow-md">
 						<Image
-							src={photo}
+							src={userMe?.image_perfil || photo}
 							alt="imagem"
 							width={100}
 							height={100}

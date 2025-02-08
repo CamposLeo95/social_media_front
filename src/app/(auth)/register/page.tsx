@@ -26,18 +26,6 @@ export default async function RegisterPage() {
 				</div>
 				<div className="w-full p-4 flex flex-col gap-6 justify-center items-center px-4">
 					<RegisterForm />
-					<div className="flex w-full justify-evenly border-t-[1px] border-zinc-700 p-5 gap-2">
-						{/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-						<button className="bg-zinc-800 text-white text-sm flex justify-center items-center gap-3 p-2 rounded-full md:w-40 shadow-lg w-20">
-							<FaGithub className="text-lg" />
-							<span className="hidden md:flex">GitHub</span>
-						</button>
-						{/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-						<button className="bg-zinc-800 text-white text-sm flex justify-center items-center gap-3 p-2 rounded-full md:w-40 shadow-lg w-20">
-							<BiLogoGmail className="text-lg" />
-							<span className="hidden md:flex">Google</span>
-						</button>
-					</div>
 				</div>
 			</div>
 		</div>

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { FiAlertTriangle } from "react-icons/fi";
+import { LuLoader } from "react-icons/lu";
 
 export default function LoginForm() {
 	const [state, formAction, isPending] = useActionState(loginAction, null);
@@ -50,12 +51,19 @@ export default function LoginForm() {
 						placeholder="Senha"
 					/>
 				</div>
-				{/* biome-ignore lint/a11y/useButtonType: <explanation> */}
+
 				<button
-					className="bg-blue-500 text-white w-full p-2 rounded-md md:mt-14"
+					className={`bg-blue-600 p-1 w-20 rounded-md flex items-center justify-center ${isPending ? "bg-opacity-50" : "hover:bg-blue-700"} transition-colors w-full`}
 					type="submit"
+					disabled={isPending}
 				>
-					Entrar
+					{isPending ? (
+						<span className="animate-spin p-2">
+							<LuLoader />
+						</span>
+					) : (
+						<span className="p-1">Entrar</span>
+					)}
 				</button>
 				<span className="text-zinc-500 text-center">
 					Não possui conta?{" "}

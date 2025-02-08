@@ -1,7 +1,7 @@
 "use client";
 
 import { createComment } from "@/api/comments/create-comment";
-import photo from "@/assets/meu_pet.jpg";
+import photo from "@/assets/perfil.png";
 import Card from "@/components/card";
 
 import Image from "next/image";

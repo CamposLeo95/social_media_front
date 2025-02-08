@@ -1,8 +1,10 @@
 "use client";
 
+import photo from "@/assets/perfil.png";
 import LogoutButton from "@/components/button-logout";
 import LinkNavBar from "@/components/navbar-link";
-import { getUserData } from "@/utils/session";
+import Image from "next/image";
+// import { getUserData } from "@/utils/session";
 
 import { use, useState } from "react";
 import { BiX } from "react-icons/bi";
@@ -10,10 +12,24 @@ import { CgFeed } from "react-icons/cg";
 import { IoPerson } from "react-icons/io5";
 import { MdMenu } from "react-icons/md";
 
-export default function NavBar() {
+interface NavBar {
+	user: {
+		id: string;
+		createdAt: string;
+		upadatedAt: string;
+		name: string;
+		email: string;
+		admin: boolean;
+		image_perfil: string;
+		image_cover: string;
+		updatedAt: string;
+		password: string;
+	};
+}
+export default function NavBar(props: NavBar) {
 	const [isOpen, setIsOpen] = useState(false);
 
-	const user = use(getUserData());
+	// const user = use(getUserData());
 
 	return (
 		<nav className="w-full bg-zinc-800 fixed top-0 lg:hidden h-14 p-2 flex items-center  px-6 text-white z-40">
@@ -37,20 +53,41 @@ export default function NavBar() {
 						</button>
 					</div>
 					{/* photo */}
-					<div className="w-full flex justify-center items-center gap-4 ">
-						<div className="bg-zinc-400 rounded-full h-20 w-20 md:h-20 md:w-20 flex justify-center items-center text-xl ">
-							LA
+					{props?.user?.image_perfil ? (
+						<div className="w-full flex justify-center items-center gap-4 ">
+							<div className="w-40 h-40 rounded-full bg-gray-500 overflow-hidden flex items-center justify-center bg-cover shadow-md z-20 mt-10 border-4 border-zinc-900 ">
+								<Image
+									src={props?.user?.image_perfil || photo}
+									alt="imagem"
+									className="w-full h-full object-cover"
+									width={300}
+									height={300}
+								/>
+							</div>
 						</div>
-					</div>
+					) : (
+						<div className="w-full flex justify-center items-center gap-4 ">
+							<div className="bg-zinc-400 rounded-full h-20 w-20 md:h-20 md:w-20 flex justify-center items-center text-xl ">
+								LA
+							</div>
+						</div>
+					)}
+
 					{/* links */}
 					<div className="flex-1 flex  flex-col h-2/4 justify-between py-5">
 						<div className="flex flex-col gap-4 px-12 ">
 							<LinkNavBar
 								icon={<IoPerson />}
 								text="Perfil"
-								url={`/app/profile/${user?.id}`}
+								url={`/app/profile/${props?.user?.id}`}
+								setIsOpen={setIsOpen}
 							/>
-							<LinkNavBar icon={<CgFeed />} text="Feeds" url="/app/posts" />
+							<LinkNavBar
+								icon={<CgFeed />}
+								text="Feeds"
+								url="/app/posts"
+								setIsOpen={setIsOpen}
+							/>
 						</div>
 						{/* footer */}
 						<div className="flex flex-col gap-4 px-12 ">

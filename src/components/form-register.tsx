@@ -1,13 +1,12 @@
 "use client";
-
 import { registerAction } from "@/api/register/register";
-
 import Form from "next/form";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
 import { BiImage } from "react-icons/bi";
 import { FiAlertTriangle } from "react-icons/fi";
+import { LuLoader } from "react-icons/lu";
 
 export default function RegisterForm() {
 	const [state, formAction, isPending] = useActionState(registerAction, null);
@@ -91,17 +90,24 @@ export default function RegisterForm() {
 					</div>
 					{prevImg && (
 						<div className="flex justify-center rounded-md overflow-hidden">
-							<div className="rounded-md w-full md:w-[150px] overflow-hidden border-y-[1px] border-zinc-600">
+							<div className="rounded-md w-full md:w-[100px] overflow-hidden border-y-[1px] border-zinc-600">
 								<img src={prevImg} alt="preview" className="w-full   " />
 							</div>
 						</div>
 					)}
 				</div>
 				<button
+					className={`bg-blue-600 p-1 w-20 rounded-md flex items-center justify-center ${isPending ? "bg-opacity-50" : "hover:bg-blue-700"} transition-colors w-full`}
 					type="submit"
-					className="bg-blue-500 text-white w-full p-2 rounded-md "
+					disabled={isPending}
 				>
-					Cadastrar
+					{isPending ? (
+						<span className="animate-spin p-2">
+							<LuLoader />
+						</span>
+					) : (
+						<span className="p-1">Entrar</span>
+					)}
 				</button>
 				<span className="text-zinc-500 text-center">
 					Já possui uma conta?{" "}

@@ -1,7 +1,7 @@
 import { getPostByUserId } from "@/api/posts/get-post-by-user-id";
 import type { IPost } from "@/api/types/post";
 import { getUserById } from "@/api/users/get-user-by-id";
-import photo from "@/assets/meu_pet.jpg";
+import photo from "@/assets/perfil.png";
 import CardPosts from "@/components/card-posts";
 
 import Image from "next/image";
