@@ -1,9 +1,5 @@
-
----
-
 ### `README.md` - Frontend
 
-```markdown
 # Rede Social - Frontend
 
 Bem-vindo ao frontend da aplicação de rede social. Este é o repositório que contém a interface do usuário, onde os usuários podem fazer postagens, curtir e comentar em posts.
