@@ -1,5 +1,7 @@
 "use server";
 
+import { redirect } from "next/navigation";
+
 const URL_API = process.env.NEXT_PUBLIC_API_URL;
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export async function registerAction(_prevState: any, formData: FormData) {
@@ -21,18 +23,12 @@ export async function registerAction(_prevState: any, formData: FormData) {
 			};
 		}
 
-		console.log(formData);
-
 		const response = await fetch(`${URL_API}/users`, {
 			method: "POST",
 			body: formData,
 		});
-
-		const data = await response.json();
 		if (response.ok) {
-			return {
-				success: true,
-			};
+			redirect("/login");
 		}
 	} catch (error) {
 		return {
