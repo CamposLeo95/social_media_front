@@ -7,12 +7,6 @@ import { BiLogoGmail } from "react-icons/bi";
 import { FaGithub } from "react-icons/fa";
 
 export default async function LoginPage() {
-	const session = await auth();
-
-	if (session) {
-		return redirect("/app/posts");
-	}
-
 	return (
 		<div className=" w-full md:px-24 lg:px-0 lg:justify-center lg:w-full flex gap-2 h-screen items-center text-white">
 			<div className="flex h-screen gap-2 w-full  md:w-full rounded-lg p-4 md:h-[700px] bg-neutral-900 lg:w-[1000px]">

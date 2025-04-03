@@ -14,22 +14,16 @@ import { MdMenu } from "react-icons/md";
 
 interface NavBar {
 	user: {
-		id: string;
-		createdAt: string;
-		upadatedAt: string;
+		id: number;
 		name: string;
 		email: string;
 		admin: boolean;
 		image_perfil: string;
 		image_cover: string;
-		updatedAt: string;
-		password: string;
 	};
 }
 export default function NavBar(props: NavBar) {
 	const [isOpen, setIsOpen] = useState(false);
-
-	// const user = use(getUserData());
 
 	return (
 		<nav className="w-full bg-zinc-800 fixed top-0 lg:hidden h-14 p-2 flex items-center  px-6 text-white z-40">

@@ -19,7 +19,6 @@ interface ICardPostsProps {
 
 export default async function CardPosts(props: ICardPostsProps) {
 	const token = await getSession().then((data) => data.token);
-
 	const userId = jwtDecode<{ userId: number }>(token)?.userId;
 	const user = await getUserById(props.posts.id_user);
 	const data = await findLikeOnly(Number(props?.posts?.id), userId);

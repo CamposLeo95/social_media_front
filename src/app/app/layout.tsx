@@ -6,15 +6,16 @@ import { redirect } from "next/navigation";
 export default async function Layout({
 	children,
 }: { children: React.ReactNode }) {
-	const session = await auth();
-	const user = await getUserData();
-	if (!session) {
-		return redirect("/login");
+	const token = await auth();
+	const userData = await getUserData();
+
+	if (!token) {
+		redirect("/login");
 	}
 
 	return (
 		<div>
-			<NavBar user={user} />
+			<NavBar user={userData} />
 			{children}
 		</div>
 	);

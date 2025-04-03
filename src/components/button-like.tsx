@@ -3,9 +3,8 @@
 import toggleLikeAction from "@/api/like/toggle-like";
 import type { IPost } from "@/api/types/post";
 import Form from "next/form";
-import { useRouter } from "next/navigation";
 import { useActionState } from "react";
-import { BsFillHeartFill, BsHeart, BsHeartFill } from "react-icons/bs";
+import { BsFillHeartFill, BsHeart } from "react-icons/bs";
 
 interface LikeButtonProps {
 	userId: number;

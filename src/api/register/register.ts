@@ -27,8 +27,12 @@ export async function registerAction(_prevState: any, formData: FormData) {
 			method: "POST",
 			body: formData,
 		});
+
 		if (response.ok) {
-			redirect("/login");
+			return {
+				success: true,
+				message: "Usuario cadastrado.",
+			};
 		}
 	} catch (error) {
 		return {

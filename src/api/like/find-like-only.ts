@@ -11,7 +11,6 @@ export async function findLikeOnly(id_post: number, id_user: number) {
 				},
 			},
 		);
-
 		if (!response.ok) {
 			return null;
 		}

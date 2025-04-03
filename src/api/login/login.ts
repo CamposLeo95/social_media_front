@@ -1,6 +1,7 @@
 "use server";
 import { signIn } from "@/auth";
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export async function loginAction(_prevState: any, formdata: FormData) {
 	try {
 		const { email, password } = Object.fromEntries(formdata);

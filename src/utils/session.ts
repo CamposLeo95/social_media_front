@@ -36,13 +36,13 @@ export function destroySession() {}
 export async function getUserData() {
 	const token = await getSession().then((data) => data.token);
 	const userId = jwtDecode<{ userId: number }>(token)?.userId;
-	const user = await getUserById(Number(userId) || 1);
+	const { password, createdAt, updatedAt, ...user } = await getUserById(
+		Number(userId) || 1,
+	);
 
 	const mapUser = {
 		...user,
-		id: user.id,
-		createdAt: user.createdAt,
-		upadatedAt: user.updatedAt,
+		id: userId,
 	};
 
 	return mapUser;

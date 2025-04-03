@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 const URL_API = process.env.NEXT_PUBLIC_API_URL;
 export default async function toggleLikeAction(
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	prevstate: any,
+	_: any,
 	formData: FormData,
 ) {
 	try {
@@ -15,7 +15,6 @@ export default async function toggleLikeAction(
 				Authorization: `Bearer ${token}`,
 			},
 		});
-
 		if (response.ok) {
 			revalidatePath("/app/posts");
 			return response.json();

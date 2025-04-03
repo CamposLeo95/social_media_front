@@ -2,7 +2,6 @@ import { jwtDecode } from "jwt-decode";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { getUserById } from "./api/users/get-user-by-id";
-import { userMapper } from "./mappers/user.mapper";
 import { saveSession } from "./utils/session";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -20,20 +19,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 					password: string;
 				};
 
-				const response = await fetch(`${URL_API}/login`, {
+				const response = await fetch(`${URL_API}/auth`, {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ email, password }),
 				});
+				const { data } = await response.json();
 
-				const data = await response.json();
+				const token = await data.token;
 
-				if (!data.token) {
+				if (!token) {
 					return null;
 				}
 
-				saveSession(data.token);
-				const userId = await jwtDecode<{ userId: number }>(data.token)?.userId;
+				saveSession(token);
+				const userId = await jwtDecode<{ userId: number }>(token)?.userId;
 				const user = await getUserById(userId || 0);
 
 				return user;
