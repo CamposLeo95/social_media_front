@@ -14,14 +14,14 @@ export type IUserMapper = {
 
 export const userMapper = (data: IUser): Promise<IUserMapper> => {
 	return Promise.resolve({
-		id: data._id,
-		name: data.name,
-		email: data.email,
-		admin: data.admin,
-		image_perfil: data.image_perfil,
-		image_cover: data.image_cover,
-		createdAt: data._createdAt,
-		updatedAt: data._updatedAt,
-		password: data.password,
+		id: data?.id,
+		name: data?.name,
+		email: data?.email,
+		admin: data?.admin,
+		image_perfil: data?.image_perfil,
+		image_cover: data?.image_cover,
+		createdAt: data?.createdAt,
+		updatedAt: data?.updatedAt,
+		password: data?.password,
 	});
 };

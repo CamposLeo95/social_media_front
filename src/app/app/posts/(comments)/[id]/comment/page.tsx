@@ -3,8 +3,8 @@ import { getPostById } from "@/api/posts/get-post-by-id";
 import { getUserById } from "@/api/users/get-user-by-id";
 import photo from "@/assets/perfil.png";
 import Card from "@/components/card";
-import { getSession, getUserData } from "@/utils/session";
-import { jwtDecode } from "jwt-decode";
+import { checkSession } from "@/utils/session";
+
 import Image from "next/image";
 import Link from "next/link";
 import { AiFillLike } from "react-icons/ai";
@@ -25,16 +25,14 @@ interface CommentsProps {
 }
 export default async function Comments(props: CommentsProps) {
 	const param = await props.params;
+	const currentUser = await checkSession();
 
 	const { data: post } = await getPostById(param?.id);
-	const { data: likeByPost } = await findLikeByPost(Number(post.id));
-	const totalLikes = likeByPost;
-	const token = await getSession().then((data) => data.token);
-	const userId = await jwtDecode<{ userId: number }>(token)?.userId;
-	const data = await findLikeOnly(Number(post?.id), userId);
-	const user = await getUserById(post?.id_user);
-	const userMe = await getUserData();
+	const { data: likeByPost } = await findLikeByPost(Number(post?.id));
 	const { data: comments } = await getCommentByPost(Number(post?.id));
+	const totalLikes = likeByPost;
+	const Ilike = await findLikeOnly(Number(post?.id), currentUser.id);
+	const user = await getUserById(post?.id_user);
 
 	return (
 		<div className="w-full flex flex-col gap-4 py-4 px-2  text-white relative md:flex-row md:gap-4 md:px-4 justify-center mt-10 md:mt-14">
@@ -99,17 +97,17 @@ export default async function Comments(props: CommentsProps) {
 				{/* actions */}
 				<div className="flex items-center justify-between gap-2 py-1 px-6">
 					<LikeButton
-						userId={userId}
+						userId={currentUser.id}
 						post={post}
-						token={token}
+						token={currentUser.token}
 						totalLikes={totalLikes.length}
-						Ilike={!!data}
+						Ilike={!!Ilike}
 					/>
 				</div>
 				<Card className="flex h-32 flex-1 w-full gap-2 ">
 					<div className="w-8 h-8 rounded-full bg-gray-500 overflow-hidden flex items-center justify-center bg-cover shadow-md">
 						<Image
-							src={userMe?.image_perfil || photo}
+							src={currentUser?.image_perfil || photo}
 							alt="imagem"
 							width={100}
 							height={100}
@@ -117,7 +115,7 @@ export default async function Comments(props: CommentsProps) {
 						/>
 					</div>
 					<Link
-						href={"create-comment"}
+						href={"comment/create-comment"}
 						className="w-full h-full max-h-36 bg-zinc-700 rounded-md p-2"
 					>
 						<span className="text-zinc-400 ">
@@ -159,10 +157,10 @@ export default async function Comments(props: CommentsProps) {
 											{comment.content}
 										</span>
 									</div>
-									{userId === comment.id_user && (
+									{currentUser?.id === comment.id_user && (
 										<DeleteButtonComment
-											postId={post.id}
-											commentId={comment.id}
+											postId={post?.id}
+											commentId={comment?.id}
 										/>
 									)}
 								</li>

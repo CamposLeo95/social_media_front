@@ -1,10 +1,17 @@
 import bgLogin from "@/assets/background_login.jpg";
-import { auth } from "@/auth";
-import RegisterForm from "@/components/form-register";
+
+import { cookies } from "next/headers";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import RegisterForm from "./components/form-register";
 
 export default async function RegisterPage() {
+	const coockieStore = await cookies();
+	const token = coockieStore.get("auth.token")?.value;
+
+	if (token) {
+		redirect("/app/posts");
+	}
 	return (
 		<div className=" w-full md:px-24 lg:px-0 lg:justify-center lg:w-full flex gap-2 h-screen items-center text-white">
 			<div className="flex gap-2 w-full h-screen  md:w-full rounded-lg p-4 md:h-[700px] bg-neutral-900 lg:w-[1000px]">

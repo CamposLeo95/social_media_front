@@ -1,11 +1,11 @@
 "use server";
-import { getSession } from "@/utils/session";
+import { checkSession } from "@/utils/session";
 import { redirect } from "next/navigation";
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export async function createComment(_prevState: any, formData: FormData) {
 	const URL_API = process.env.NEXT_PUBLIC_API_URL;
-	const session = await getSession();
+	const session = await checkSession();
 
 	const { content, postId } = Object.fromEntries(formData.entries());
 
@@ -18,7 +18,9 @@ export async function createComment(_prevState: any, formData: FormData) {
 		body: JSON.stringify({ content }),
 	});
 
+	console.log(response);
+
 	if (response.ok) {
-		redirect(`/app/posts/${postId}/comment`);
+		redirect(`app/posts/${postId}/comments`);
 	}
 }

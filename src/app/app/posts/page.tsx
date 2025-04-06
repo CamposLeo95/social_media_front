@@ -4,13 +4,13 @@ import photoSocialDev from "@/assets/socialDev.png";
 import CardAsidePerfil from "@/components/aside";
 import Card from "@/components/card";
 import CardPosts from "@/components/card-posts";
-import { getUserData } from "@/utils/session";
+import { checkSession } from "@/utils/session";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 
 export default async function Posts() {
-	const user = await getUserData();
+	const user = await checkSession();
 	const posts = await getPosts();
 
 	return (

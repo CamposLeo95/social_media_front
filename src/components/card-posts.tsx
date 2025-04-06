@@ -7,8 +7,7 @@ import photo from "@/assets/perfil.png";
 import DeleteButton from "@/components/button-delete-post";
 import LikeButton from "@/components/button-like";
 import Card from "@/components/card";
-import { getSession } from "@/utils/session";
-import { jwtDecode } from "jwt-decode";
+import { checkSession } from "@/utils/session";
 import Image from "next/image";
 import Link from "next/link";
 import { BiCommentDetail } from "react-icons/bi";
@@ -18,10 +17,9 @@ interface ICardPostsProps {
 }
 
 export default async function CardPosts(props: ICardPostsProps) {
-	const token = await getSession().then((data) => data.token);
-	const userId = jwtDecode<{ userId: number }>(token)?.userId;
+	const { token, id } = await checkSession();
 	const user = await getUserById(props.posts.id_user);
-	const data = await findLikeOnly(Number(props?.posts?.id), userId);
+	const { data: iLike } = await findLikeOnly(Number(props?.posts?.id), id);
 	const { data: likeByPost } = await findLikeByPost(Number(props.posts.id));
 	const totalLikes = likeByPost?.length;
 	const { data: comments } = await getCommentByPost(Number(props?.posts.id));
@@ -47,7 +45,7 @@ export default async function CardPosts(props: ICardPostsProps) {
 					</div>
 				</div>
 				<div className=" mr-2">
-					{userId === props.posts.id_user && (
+					{id === props.posts.id_user && (
 						<DeleteButton postId={props.posts.id} token={token} />
 					)}
 				</div>
@@ -55,26 +53,29 @@ export default async function CardPosts(props: ICardPostsProps) {
 
 			{/* Content */}
 			<div className="w-full flex flex-col gap-2 ">
-				<p>{props?.posts?.content}</p>
-				<div className=" w-full p-4 md:h-[350px] lg:h-[450px] flex items-center justify-center rounded-md shadow-md my-3 ">
-					<Image
-						src={props?.posts?.image_url || photo}
-						alt="imagem"
-						height={550}
-						width={500}
-						className="w-[250px] h-[250px] md:w-[350px] md:h-[340px] lg:w-[450px] lg:h-[440px]  object-cover"
-					/>
-				</div>
+				<p className="my-5">{props?.posts?.content}</p>
+				{props?.posts?.image_url && (
+					<div className=" w-full p-4 md:h-[350px] lg:h-[450px] flex items-center justify-center rounded-md shadow-md my-3 ">
+						{props?.posts?.image_url.includes("undefined")}
+						<Image
+							src={props?.posts?.image_url || photo}
+							alt="imagem"
+							height={550}
+							width={500}
+							className="w-[250px] h-[250px] md:w-[350px] md:h-[340px] lg:w-[450px] lg:h-[440px]  object-cover"
+						/>
+					</div>
+				)}
 			</div>
 			<div className="h-[1px] bg-zinc-600 w-full" />
 			{/* actions */}
 			<div className="flex items-center gap-4 py-1 px-2">
 				<LikeButton
-					userId={userId}
+					userId={id}
 					post={props?.posts}
 					token={token}
 					totalLikes={totalLikes}
-					Ilike={!!data}
+					Ilike={!!iLike}
 				/>
 				<div className="flex items-center gap-2 ">
 					<Link

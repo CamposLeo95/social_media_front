@@ -1,12 +1,12 @@
 "use client";
 import { createPost } from "@/api/posts/create-post";
 import Form from "next/form";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useState } from "react";
 import { BiImage } from "react-icons/bi";
 import { LuLoader } from "react-icons/lu";
 
 export default function FormCreatePost() {
-	const [state, createAction, isPending] = useActionState(createPost, null);
+	const [_state, createAction, isPending] = useActionState(createPost, null);
 	const [prevImg, setPrevImg] = useState<string>("");
 
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>

@@ -2,14 +2,14 @@ import { BsPerson } from "react-icons/bs";
 import { CgFeed } from "react-icons/cg";
 
 import LinkNavBar from "@/components/navbar-link";
-import { getUserData } from "@/utils/session";
+import { checkSession } from "@/utils/session";
 
 export default async function MenuAside() {
-	const user = await getUserData();
+	const { id } = await checkSession();
 	return (
 		<div className="flex w-full flex-col items-center gap-4 ">
 			<LinkNavBar
-				url={`/app/profile/${user.id}`}
+				url={`/app/profile/${id}`}
 				icon={<BsPerson />}
 				text="Meu Perfil"
 			/>

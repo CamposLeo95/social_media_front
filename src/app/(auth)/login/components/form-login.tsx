@@ -1,21 +1,18 @@
 "use client";
 
-import { loginAction } from "@/api/login/login";
+import { authAction } from "@/api/auth/auth";
 import Form from "next/form";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { useActionState, useEffect } from "react";
+
+import { useActionState } from "react";
 import { FiAlertTriangle } from "react-icons/fi";
 import { LuLoader } from "react-icons/lu";
 
 export default function LoginForm() {
-	const [state, formAction, isPending] = useActionState(loginAction, null);
-
-	useEffect(() => {
-		if (state?.success === true) {
-			redirect("/app/posts");
-		}
-	}, [state?.success]);
+	const [state, formAction, isPending] = useActionState(authAction, {
+		isSuccess: true,
+		message: "",
+	});
 
 	return (
 		<>
@@ -24,7 +21,7 @@ export default function LoginForm() {
 					Social Share!
 				</h1>
 
-				{state?.success === false ? (
+				{!state?.isSuccess ? (
 					<div className="bg-red-400  p-1 text-white rounded-md w-full border-red-600 border-[1px] text-center flex gap-2 items-center justify-center ">
 						<FiAlertTriangle className="text-2xl" />
 						<span>{state?.message}</span>
@@ -34,8 +31,8 @@ export default function LoginForm() {
 				)}
 
 				<div className="flex flex-col gap-1">
-					{/* <label htmlFor="email">Email</label> */}
 					<input
+						aria-label="email"
 						name="email"
 						type="text"
 						className="border border-1 p-2 rounded-md bg-zinc-800 outline-none border-none"
@@ -43,8 +40,8 @@ export default function LoginForm() {
 					/>
 				</div>
 				<div className="flex flex-col gap-1 rounded-md">
-					{/* <label htmlFor="senha">Senha</label> */}
 					<input
+						aria-label="passwaord"
 						name="password"
 						type="password"
 						className="border border-1 p-2 rounded-md bg-zinc-800 outline-none border-none"

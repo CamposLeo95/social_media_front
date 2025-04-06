@@ -3,11 +3,11 @@ import photo from "@/assets/cover.jpg";
 import perfil from "@/assets/perfil.png";
 import MenuAside from "@/components/aside-menu";
 import LogoutButton from "@/components/button-logout";
-import { getUserData } from "@/utils/session";
+import { checkSession } from "@/utils/session";
 import Image from "next/image";
 
 export default async function CardAsidePerfil() {
-	const user = await getUserData();
+	const user = await checkSession();
 	const posts = await getPosts();
 	const Iposts = posts.filter((post) => post.id_user === Number(user.id));
 

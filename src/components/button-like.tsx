@@ -16,7 +16,7 @@ interface LikeButtonProps {
 
 export default function LikeButton(props: LikeButtonProps) {
 	const { post, token, totalLikes, Ilike } = props;
-	const [state, formAction, isPending] = useActionState(toggleLikeAction, {
+	const [_state, formAction, _isPending] = useActionState(toggleLikeAction, {
 		token,
 		postId: post?.id,
 	});

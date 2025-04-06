@@ -3,6 +3,7 @@ import { getUserById } from "@/api/users/get-user-by-id";
 import { getIronSession } from "iron-session";
 import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export type User = {
 	name: string;
@@ -33,8 +34,12 @@ export async function saveSession(token: string) {
 
 export function destroySession() {}
 
-export async function getUserData() {
-	const token = await getSession().then((data) => data.token);
+export async function checkSession() {
+	const browserStore = await cookies();
+	const token = await browserStore.get("auth.token")?.value;
+	if (!token) {
+		redirect("/login");
+	}
 	const userId = jwtDecode<{ userId: number }>(token)?.userId;
 	const { password, createdAt, updatedAt, ...user } = await getUserById(
 		Number(userId) || 1,
@@ -43,6 +48,7 @@ export async function getUserData() {
 	const mapUser = {
 		...user,
 		id: userId,
+		token: JSON.parse(token),
 	};
 
 	return mapUser;
